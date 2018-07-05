@@ -1,0 +1,13 @@
+node_modules/
+npm-debug.log*
+trash/
+dist/
+src/config.ts
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
