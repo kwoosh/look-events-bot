@@ -9,7 +9,7 @@ import { sendReminderCard } from './actions/send/reminderCard'
 import { BUTTON_TYPES } from './buttons'
 import { commandReplies } from './messages'
 
-const bot = new Telegraf(config.BOT_TOKEN)
+const bot = new Telegraf(process.env.BOT_TOKEN || config.BOT_TOKEN)
 
 bot.start(ctx => {
     db.addUser(ctx.from.id, ctx.from.username)

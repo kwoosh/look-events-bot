@@ -13,13 +13,15 @@ export type Event = {
     time: { dates: string[]; raw: string }
 }
 
+const LOOK_EVENTS_API = 'https://look-events-api.herokuapp.com'
+
 class EventsAPI {
     url: string
     doRequest: AxiosInstance
 
     constructor() {
         this.url = 'events'
-        this.doRequest = axios.create({ baseURL: config.LOOK_EVENT_API })
+        this.doRequest = axios.create({ baseURL: LOOK_EVENTS_API })
     }
 
     get(id: number | string): Promise<Event> {

@@ -14,7 +14,7 @@ export type Reminder = {
     date: string
 }
 
-const database = mysql.createConnection(config.DB_URI)
+const database = mysql.createConnection(process.env.DB_URI || config.DB_URI)
 
 class DB {
     constructor() {
