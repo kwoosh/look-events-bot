@@ -98,6 +98,18 @@ class DB {
             })
         })
     }
+
+    getReminder(userID: number, id: number): Promise<Reminder> {
+        const sql = `SELECT * FROM reminders WHERE userID = ${userID} AND id = ${id}`
+
+        return new Promise((resolve, reject) => {
+            database.query(sql, (err, results: Reminder[]) => {
+                if (err) reject(err)
+
+                resolve(results[0])
+            })
+        })
+    }
 }
 
 export default new DB()
