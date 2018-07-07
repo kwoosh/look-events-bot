@@ -16,13 +16,13 @@ export type Reminder = {
 
 const database = mysql.createConnection(config.DB_URI)
 
-database.connect(err => {
-    if (err) throw err
-    console.log('Connected to Database')
-})
-
 class DB {
     constructor() {
+        database.connect(err => {
+            if (err) throw err
+            console.log('Connected to db!')
+        })
+
         this.createUsersTable()
         this.createRemindersTable()
     }
@@ -99,4 +99,4 @@ class DB {
     }
 }
 
-export const db = new DB()
+export default new DB()
