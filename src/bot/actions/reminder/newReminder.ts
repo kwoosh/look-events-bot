@@ -21,7 +21,7 @@ export default async function(eventID: number, daysBefore: number, messageID: nu
         await db.addReminder(ctx.from.id, event.id, messageID, remindDate)
 
         const message = remindersMessages.reminderCreated(event.title, remindDate)
-        ctx.replyWithHTML(message)
+        ctx.replyWithHTML(message, { reply_to_message_id: messageID })
     }
 
     if (userReminders.length) {
