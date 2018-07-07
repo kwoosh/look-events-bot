@@ -24,7 +24,25 @@ ${e.link}
 `
 }
 
-export const BOT_REPLIES = {
+export const reminders = {
+    reminderCreated(title: string, date: string) {
+        return `Напоминание про <b>${title}</b> создано на дату <b>${date}</b>`
+    },
+
+    reminderExist(title: string, date: string) {
+        return `На дату <b>${date}</b> у вас уже существует напоминание про <b>${title}</b>!`
+    },
+
+    lateForReminders(title: string) {
+        return `Уже слишкмо <b>поздно</b> для напоминаний, cобитие <b>${title}</b> проводиться сегодня, поспеши!`
+    },
+
+    whenToRemind(title: string) {
+        return `Когда нужно напомнить про <b>${title}</b>?`
+    },
+}
+
+export const commandReplies = {
     start: 'Привет! Используй клавиатуру ниже, чтобы вызывать команды. Если нужна помощь, то нажми /help',
 
     about: `
@@ -39,4 +57,4 @@ export const BOT_REPLIES = {
 О боте: /about`,
 }
 
-export const REMINDS = [{ days: 1, text: 'За день' }, { days: 3, text: 'За 3 дня' }, { days: 7, text: 'За неделю' }]
+export const REMIND_DAYS = [{ days: 1, text: 'За день' }, { days: 3, text: 'За 3 дня' }, { days: 7, text: 'За неделю' }]
