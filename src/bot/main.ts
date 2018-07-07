@@ -1,6 +1,6 @@
 import Telegraf from 'telegraf'
 import config from '../config'
-import { db } from '../db'
+import db from '../db'
 import askForRemindDay from './actions/reminder/askForRemindDay'
 import newReminder from './actions/reminder/newReminder'
 import { sendCard } from './actions/send'
@@ -8,6 +8,12 @@ import { BUTTON_TYPES } from './buttons'
 import { commandReplies } from './messages'
 
 const bot = new Telegraf(config.BOT_TOKEN)
+
+bot.start(ctx => {
+    ctx.reply(commandReplies.start)
+
+    db.addUser(ctx.from.id, ctx.from.username)
+})
 
 bot.hears(/\/e(\d+)/, ctx => {
     sendCard(Number(ctx.match[1]), ctx)
@@ -32,12 +38,6 @@ bot.on('callback_query', async ctx => {
     }
 
     ctx.answerCallbackQuery()
-})
-
-bot.start(ctx => {
-    ctx.reply(commandReplies.start)
-
-    db.addUser(ctx.from.id, ctx.from.username)
 })
 
 bot.startPolling()
