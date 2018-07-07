@@ -1,6 +1,7 @@
 import { Event } from '../api'
+import * as moment from 'moment'
 
-function hashtagTopics(topics: string[]) {
+export function hashtagTopics(topics: string[]) {
     const invalidChars = /(\s|-)/i
     const _ = '_'
 
@@ -24,7 +25,12 @@ ${e.link}
 `
 }
 
-export const reminders = {
+export const remindersMessages = {
+    static: {
+        yourReminders: '<b>Ваши напоминания 📆</b>\n\n',
+        deleteReminder: '\nЧто бы удалить напоминание - нажмте на кнопку <i>удалить</i> под карточкой напоминания.',
+    },
+
     reminderCreated(title: string, date: string) {
         return `Напоминание про <b>${title}</b> создано на дату <b>${date}</b>`
     },
@@ -40,6 +46,12 @@ export const reminders = {
     whenToRemind(title: string) {
         return `Когда нужно напомнить про <b>${title}</b>?`
     },
+
+    singleLine(title: string, date: string, id: number) {
+        if (title.length > 40) title = title.slice(0, 40) + '...'
+
+        return `● <b>${moment(date).format('D MMMM')}</b> ${title} (/r${id})\n`
+    },
 }
 
 export const replies = {
@@ -49,14 +61,18 @@ export const replies = {
 export const commandReplies = {
     start: 'Привет! Используй клавиатуру ниже, чтобы вызывать команды. Если нужна помощь, то нажми /help',
 
-    about: `
+    about: `Look Events Bot - это телеграм-бот,
+который поможет тебе следить за событиями в мире IT
+
 Идеи, жалобы, похвалу, а также по вопросам создания ботов писать сюда – @tobira
+Нашли ошибку или неправильное поведение бота - @tobira
 Все доступные команды: /help
-Бот использует DOU.ua для полученя данных о события (https://dou.ua/calendar/)`,
+Бот использует DOU.ua для полученя данных о событиях.`,
 
     help: `
 Все доступные команды:
 /settings - настройки бота
+/reminders - список напоминаний
 
 О боте: /about`,
 }

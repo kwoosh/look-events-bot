@@ -3,7 +3,7 @@ import { ContextMessageUpdate } from 'telegraf'
 import api from '../../../api'
 import db, { Reminder } from '../../../db'
 import { format, getRemindDate } from '../../dates'
-import { reminders } from '../../messages'
+import { remindersMessages } from '../../messages'
 
 export function isExist(remindDate: string, reminders: Reminder[]) {
     return reminders.reduce((prev, curr) => {
@@ -20,14 +20,14 @@ export default async function(eventID: number, daysBefore: number, messageID: nu
     const createReminder = async () => {
         await db.addReminder(ctx.from.id, event.id, messageID, remindDate)
 
-        const message = reminders.reminderCreated(event.title, remindDate)
+        const message = remindersMessages.reminderCreated(event.title, remindDate)
         ctx.replyWithHTML(message)
     }
 
     if (userReminders.length) {
         const reminderExist = isExist(remindDate, userReminders)
 
-        if (reminderExist) ctx.replyWithHTML(reminders.reminderExist(event.title, remindDate))
+        if (reminderExist) ctx.replyWithHTML(remindersMessages.reminderExist(event.title, remindDate))
         else createReminder()
     } else {
         createReminder()

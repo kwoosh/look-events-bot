@@ -2,7 +2,7 @@ import * as moment from 'moment'
 import { ContextMessageUpdate } from 'telegraf'
 import api from '../../../api'
 import { makeWhenButton } from '../../buttons'
-import { reminders, REMIND_DAYS } from '../../messages'
+import { remindersMessages, REMIND_DAYS } from '../../messages'
 
 export default async function(eventID: number, ctx: ContextMessageUpdate) {
     const event = await api.get(eventID)
@@ -12,7 +12,7 @@ export default async function(eventID: number, ctx: ContextMessageUpdate) {
     const msgID = ctx.callbackQuery.message.message_id
 
     if (diff === 0) {
-        ctx.replyWithHTML(reminders.lateForReminders(event.title), {
+        ctx.replyWithHTML(remindersMessages.lateForReminders(event.title), {
             reply_to_message_id: msgID,
         })
     } else {
@@ -22,7 +22,7 @@ export default async function(eventID: number, ctx: ContextMessageUpdate) {
             if (diff >= days) buttonsRow.push(makeWhenButton(text, days, event.id, msgID))
         })
 
-        ctx.replyWithHTML(reminders.whenToRemind(event.title), {
+        ctx.replyWithHTML(remindersMessages.whenToRemind(event.title), {
             reply_to_message_id: msgID,
             reply_markup: { inline_keyboard: [buttonsRow] },
         })
