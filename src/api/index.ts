@@ -45,4 +45,4 @@ class EventsAPI {
     }
 }
 
-export const api = new EventsAPI()
+export default new EventsAPI()
