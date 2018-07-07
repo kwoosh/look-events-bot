@@ -1,13 +1,13 @@
 import * as moment from 'moment'
 import { ContextMessageUpdate } from 'telegraf'
 import api from '../../../api'
-import { db, Reminder } from '../../../db'
-import { getRemindDate } from '../../dates'
+import db, { Reminder } from '../../../db'
+import { format, getRemindDate } from '../../dates'
 import { reminders } from '../../messages'
 
-export function isExist(remindDate: string, userReminders: Reminder[]) {
-    return userReminders.reduce((prev, curr) => {
-        return moment(curr.date).format('YYYY-MM-DD') === remindDate ? true : prev
+export function isExist(remindDate: string, reminders: Reminder[]) {
+    return reminders.reduce((prev, curr) => {
+        return format(moment(curr.date)) === remindDate ? true : prev
     }, false)
 }
 
@@ -15,7 +15,7 @@ export default async function(eventID: number, daysBefore: number, messageID: nu
     const event = await api.get(eventID)
 
     const userReminders = await db.getReminders(ctx.from.id, event.id)
-    const remindDate = getRemindDate(moment(event.time.dates[0]), daysBefore).format('YYYY-MM-DD')
+    const remindDate = format(getRemindDate(event.time.dates[0], daysBefore))
 
     const createReminder = async () => {
         await db.addReminder(ctx.from.id, event.id, messageID, remindDate)
