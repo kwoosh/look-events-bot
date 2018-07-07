@@ -1,9 +1,10 @@
 import Telegraf from 'telegraf'
 import config from '../config'
 import db from '../db'
-import askForRemindDay from './actions/reminder/askForRemindDay'
-import newReminder from './actions/reminder/newReminder'
-import listReminders from './actions/reminder/listReminders'
+import askForRemindDay from './actions/remind/askForRemindDay'
+import newReminder from './actions/remind/newReminder'
+import listReminders from './actions/remind/listReminders'
+import deleteReminder from './actions/remind/deleteReminder'
 import { sendEventCard } from './actions/send/eventCard'
 import { sendReminderCard } from './actions/send/reminderCard'
 import { BUTTON_TYPES } from './buttons'
@@ -38,7 +39,8 @@ bot.hears(/\/e(\d+)/, ctx => {
 
 bot.on('callback_query', async ctx => {
     type QueryData = { type: string; payload: any }
-    const { type, payload }: QueryData = JSON.parse(ctx.callbackQuery.data)
+    const data = JSON.parse(ctx.callbackQuery.data)
+    const { type, payload }: QueryData = data
 
     switch (type) {
         case BUTTON_TYPES['reminder-ask']:
@@ -50,9 +52,7 @@ bot.on('callback_query', async ctx => {
             break
 
         case BUTTON_TYPES['reminder-delete']:
-            // db.deleteReminder(Number(payload.reminderID)).then(() => {
-            //    console.log('deleted')
-            //})
+            deleteReminder(Number(payload.reminderID), ctx)
             break
 
         default:
