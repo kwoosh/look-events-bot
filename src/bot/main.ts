@@ -1,11 +1,11 @@
-import * as moment from 'moment'
 import Telegraf from 'telegraf'
-import { api } from '../api'
 import config from '../config'
-import { askForRemindDay } from './actions/remind'
+import { db } from '../db'
+import askForRemindDay from './actions/reminder/askForRemindDay'
+import newReminder from './actions/reminder/newReminder'
 import { sendCard } from './actions/send'
 import { BUTTON_TYPES } from './buttons'
-import { getRemindDate } from './dates'
+import { commandReplies } from './messages'
 
 const bot = new Telegraf(config.BOT_TOKEN)
 
@@ -18,16 +18,12 @@ bot.on('callback_query', async ctx => {
     const { type, payload }: QueryData = JSON.parse(ctx.callbackQuery.data)
 
     switch (type) {
-        case BUTTON_TYPES['reminder:event']:
+        case BUTTON_TYPES['reminder-ask']:
             askForRemindDay(Number(payload.eventID), ctx)
             break
 
-        case BUTTON_TYPES['reminder:when']:
-            const event = await api.get(Number(payload.eventID))
-            const remindDate = getRemindDate(moment(event.time.dates[0]), Number(payload.days))
-            // check if reminder exist
-            // write Reminder To DB
-            console.log(event, payload)
+        case BUTTON_TYPES['reminder-new']:
+            newReminder(Number(payload.eventID), Number(payload.days), Number(payload.msgID), ctx)
             break
 
         default:
@@ -36,6 +32,12 @@ bot.on('callback_query', async ctx => {
     }
 
     ctx.answerCallbackQuery()
+})
+
+bot.start(ctx => {
+    ctx.reply(commandReplies.start)
+
+    db.addUser(ctx.from.id, ctx.from.username)
 })
 
 bot.startPolling()
