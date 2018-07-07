@@ -14,4 +14,5 @@ export function makeWhenButton(text: string, days: number, eventID: number, msgI
 export const BUTTON_TYPES = {
     'reminder-ask': 'r:a',
     'reminder-new': 'r:n',
+    'reminder-delete': 'r:d',
 }
