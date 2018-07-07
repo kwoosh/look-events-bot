@@ -55,8 +55,11 @@ class DB {
     addUser(id: number, username: string) {
         const sql = `INSERT IGNORE INTO users (id, name) VALUES (${id}, '${username || ''}')`
 
-        database.query(sql, err => {
-            if (err) throw err
+        return new Promise((resolve, reject) => {
+            database.query(sql, err => {
+                if (err) reject(err)
+                resolve()
+            })
         })
     }
 
@@ -106,6 +109,17 @@ class DB {
             database.query(sql, (err, results: Reminder[]) => {
                 if (err) reject(err)
 
+                resolve(results[0])
+            })
+        })
+    }
+
+    deleteReminder(id: number) {
+        const sql = `DELETE FROM reminders WHERE id = ${id}`
+
+        return new Promise((resolve, reject) => {
+            database.query(sql, (err, results: Reminder[]) => {
+                if (err) reject(err)
                 resolve(results[0])
             })
         })
