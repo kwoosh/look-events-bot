@@ -1,4 +1,5 @@
 import { Event } from '../api'
+import { Reminder } from '../db'
 import * as moment from 'moment'
 
 export function hashtagTopics(topics: string[]) {
@@ -8,8 +9,13 @@ export function hashtagTopics(topics: string[]) {
     return topics.map(topic => `#${topic.replace(invalidChars, _)}`).join(' ')
 }
 
-export function getEventCard(e: Event) {
-    return `
+export const eventsMessages = {
+    static: {
+        eventNotFound: 'Хмм... 😕 Не могу найти такое событие 🤷🏼‍♂️ \nМожет быть, оно уже проло, и ты все пропустил? 😜',
+    },
+
+    getEventCard(e: Event) {
+        return `
 <b>${e.title}</b>
 
 📅 ${e.time.raw}
@@ -18,11 +24,9 @@ export function getEventCard(e: Event) {
 
 ${e.description}
 ${hashtagTopics(e.topics)}
-
 <a href="${e.image}">&#8205;</a>
-
-${e.link}
-`
+${e.link}`
+    },
 }
 
 export const remindersMessages = {
@@ -52,10 +56,15 @@ export const remindersMessages = {
 
         return `● <b>${moment(date).format('D MMMM')}</b> ${title} (/r${id})\n`
     },
-}
 
-export const replies = {
-    eventNotFound: 'Хмм... 😕 Не могу найти такое событие 🤷🏼‍♂️ \nМожет быть, оно уже проло, и ты все пропустил? 😜',
+    getReminderCard(r: Reminder, e: Event) {
+        return `
+🎗️ Напоминание про <b>${e.title}</b> (/e${e.id})
+
+На дату: <b>${moment(r.date).format('D MMMM')}</b>
+
+Начало события: <b>${e.time.raw}</b>`
+    },
 }
 
 export const commandReplies = {
