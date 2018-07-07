@@ -8,10 +8,10 @@ export function makeCallbackButton(text: string, type: string, payload: any) {
 }
 
 export function makeWhenButton(text: string, days: number, eventID: number, msgID: number) {
-    return makeCallbackButton(text, BUTTON_TYPES['reminder:when'], { eventID, days, msgID })
+    return makeCallbackButton(text, BUTTON_TYPES['reminder-new'], { eventID, days, msgID })
 }
 
 export const BUTTON_TYPES = {
-    'reminder:event': 'r:e',
-    'reminder:when': 'r:w',
+    'reminder-ask': 'r:a',
+    'reminder-new': 'r:n',
 }
