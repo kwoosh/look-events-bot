@@ -86,8 +86,9 @@ class DB {
         })
     }
 
-    getReminders(userID: number, eventID: number): Promise<Reminder[]> {
-        const sql = `SELECT * FROM reminders WHERE userID = ${userID} AND eventID = ${eventID}`
+    getReminders(userID: number, eventID?: number): Promise<Reminder[]> {
+        const withEvent = eventID ? `AND eventID = ${eventID}` : ''
+        const sql = `SELECT * FROM reminders WHERE userID = ${userID} ${withEvent}`
 
         return new Promise((resolve, reject) => {
             database.query(sql, (err, results: Reminder[]) => {
