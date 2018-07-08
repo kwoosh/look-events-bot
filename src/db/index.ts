@@ -118,9 +118,9 @@ class DB {
         const sql = `DELETE FROM reminders WHERE id = ${id}`
 
         return new Promise((resolve, reject) => {
-            database.query(sql, (err, results: Reminder[]) => {
+            database.query(sql, err => {
                 if (err) reject(err)
-                resolve(results[0])
+                resolve()
             })
         })
     }
