@@ -2,38 +2,39 @@ import Telegraf from 'telegraf'
 import config from '../config'
 import db from '../db'
 import askForRemindDay from './actions/remind/askForRemindDay'
-import newReminder from './actions/remind/newReminder'
-import listReminders from './actions/remind/listReminders'
 import deleteReminder from './actions/remind/deleteReminder'
+import listReminders from './actions/remind/listReminders'
+import newReminder from './actions/remind/newReminder'
 import { sendEventCard } from './actions/send/eventCard'
 import { sendReminderCard } from './actions/send/reminderCard'
 import { BUTTON_TYPES } from './buttons'
-import { commandReplies } from './messages'
+import commands, { toHear } from './commands'
+import staticReplies from './messages/staticReplies'
 
 const bot = new Telegraf(process.env.BOT_TOKEN || config.BOT_TOKEN)
 
 bot.start(ctx => {
     db.addUser(ctx.from.id, ctx.from.username)
-    ctx.replyWithHTML(commandReplies.start)
+    ctx.replyWithHTML(staticReplies.start)
 })
 
-bot.command('help', ctx => {
-    ctx.replyWithHTML(commandReplies.help)
+bot.command(commands['help'], ctx => {
+    ctx.replyWithHTML(staticReplies['help'])
 })
 
-bot.command('about', ctx => {
-    ctx.replyWithHTML(commandReplies.about)
+bot.command(commands['about'], ctx => {
+    ctx.replyWithHTML(staticReplies['about'])
 })
 
-bot.command('reminders', async ctx => {
+bot.command(commands['myReminders'], async ctx => {
     listReminders(ctx)
 })
 
-bot.hears(/\/r(\d+)/, ctx => {
+bot.hears(toHear['reminder'], ctx => {
     sendReminderCard(Number(ctx.match[1]), ctx)
 })
 
-bot.hears(/\/e(\d+)/, ctx => {
+bot.hears(toHear['event'], ctx => {
     sendEventCard(Number(ctx.match[1]), ctx)
 })
 

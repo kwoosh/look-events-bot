@@ -1,12 +1,12 @@
 import { ContextMessageUpdate } from 'telegraf'
 import api from '../../../api'
 import db from '../../../db'
-import { remindersMessages } from '../../messages'
+import remindersMessages from '../../messages/reminders'
 
 export default async function(ctx: ContextMessageUpdate) {
     const reminders = await db.getReminders(ctx.from.id)
 
-    let message = remindersMessages.static.yourReminders
+    let message = remindersMessages.yourReminders
 
     for (let i = 0; i < reminders.length; i++) {
         const reminder = reminders[i]
@@ -15,5 +15,7 @@ export default async function(ctx: ContextMessageUpdate) {
         message += remindersMessages.singleLine(event.title, reminder.date, reminder.id)
     }
 
-    ctx.replyWithHTML(message + remindersMessages.static.deleteReminder)
+    if (!reminders.length) message = remindersMessages.remindersEmpty
+
+    ctx.replyWithHTML(message + remindersMessages.deleteReminder)
 }

@@ -1,12 +1,12 @@
+import { AxiosError } from 'axios'
 import { ContextMessageUpdate } from 'telegraf'
 import api from '../../../api'
 import { BUTTON_TYPES, makeCallbackButton } from '../../buttons'
-import { eventsMessages } from '../../messages'
-import { AxiosError } from 'axios'
+import eventsMessages from '../../messages/events'
 
 export async function sendEventCard(eventID: number, ctx: ContextMessageUpdate) {
     const event = await api.get(eventID).catch((err: AxiosError) => {
-        if (err.response.status === 404) ctx.replyWithHTML(eventsMessages.static.eventNotFound)
+        if (err.response.status === 404) ctx.replyWithHTML(eventsMessages.eventNotFound)
     })
 
     if (!event) return
