@@ -8,21 +8,18 @@ export function makeCallbackButton(text: string, type: string, payload: any) {
 }
 
 export function makeWhenButton(text: string, days: number, eventID: number, msgID: number) {
-    return makeCallbackButton(text, BUTTON_TYPES['reminder-new'], { eventID, days, msgID })
+    return makeCallbackButton(text, BUTTONS.types['reminder-new'], { eventID, days, msgID })
 }
 
-export const BUTTON_TYPES = {
-    'reminder-ask': 'r:a',
-    'reminder-new': 'r:n',
-    'reminder-delete': 'r:d',
-}
+export const BUTTONS = {
+    types: {
+        'reminder-ask': 'r:a',
+        'reminder-new': 'r:n',
+        'reminder-delete': 'r:d',
+    },
 
-export const buttonsText = {
-    delete: 'Удалить!',
-    remind: 'Напомнить =)',
-    whenRemind: {
-        1: 'За день',
-        3: 'За 3 дня',
-        7: 'За неделю',
+    texts: {
+        delete: 'Удалить!',
+        remind: 'Напомнить =)',
     },
 }

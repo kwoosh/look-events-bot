@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { Event } from '../../api'
 import { Reminder } from '../../db'
-import commands from '../commands'
+import { commands } from '../commands'
 
 export default {
     yourReminders: '<b>Ваши напоминания</b> 📆\n\n',
@@ -19,7 +19,7 @@ export default {
     },
 
     reminderExist(title: string, date: string, remidnerID: number) {
-        return `На дату <b>${date}</b> у вас уже существует напоминание про <b>${title}</b>! (/${commands.reminder}${remidnerID})`
+        return `У вас уже существует напоминание про <b>${title}</b>(/${commands.reminder}${remidnerID}) на дату <b>${date}</b>😑`
     },
 
     singleLine(title: string, date: string, id: number) {

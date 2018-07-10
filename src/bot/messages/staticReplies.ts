@@ -1,4 +1,4 @@
-import commands from '../commands'
+import { commands } from '../commands'
 
 export default {
     start: 'Привет! Используй клавиатуру ниже, чтобы вызывать команды. Если нужна помощь, то нажми /help',

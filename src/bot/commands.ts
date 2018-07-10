@@ -1,4 +1,4 @@
-const commands = {
+export const commands = {
     myReminders: 'my_reminders',
     start: 'start',
     help: 'help',
@@ -10,7 +10,5 @@ const commands = {
 
 export const toHear = {
     reminder: /\/r(\d+)/,
-    event: /\/e(\d+)/, 
+    event: /\/e(\d+)/,
 }
-
-export default commands

@@ -7,8 +7,8 @@ import listReminders from './actions/remind/listReminders'
 import newReminder from './actions/remind/newReminder'
 import { sendEventCard } from './actions/send/eventCard'
 import { sendReminderCard } from './actions/send/reminderCard'
-import { BUTTON_TYPES } from './buttons'
-import commands, { toHear } from './commands'
+import { BUTTONS } from './buttons'
+import { commands, toHear } from './commands'
 import staticReplies from './messages/staticReplies'
 
 const bot = new Telegraf<CustomContextMessage>(process.env.BOT_TOKEN || config.BOT_TOKEN)
@@ -48,15 +48,15 @@ bot.on('callback_query', async ctx => {
     const { type, payload }: QueryData = data
 
     switch (type) {
-        case BUTTON_TYPES['reminder-ask']:
+        case BUTTONS.types['reminder-ask']:
             askForRemindDay(Number(payload.eventID), ctx)
             break
 
-        case BUTTON_TYPES['reminder-new']:
+        case BUTTONS.types['reminder-new']:
             newReminder(Number(payload.eventID), Number(payload.days), Number(payload.msgID), ctx)
             break
 
-        case BUTTON_TYPES['reminder-delete']:
+        case BUTTONS.types['reminder-delete']:
             deleteReminder(Number(payload.reminderID), ctx)
             break
 

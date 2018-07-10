@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
-import { CustomContextMessage, Telegram } from 'telegraf'
+import { CustomContextMessage } from 'telegraf'
 import api from '../../../api'
-import { BUTTON_TYPES, makeCallbackButton } from '../../buttons'
+import { BUTTONS, makeCallbackButton } from '../../buttons'
 import eventsMessages from '../../messages/events'
 
 export async function sendEventCard(eventID: number, ctx: CustomContextMessage) {
@@ -13,7 +13,7 @@ export async function sendEventCard(eventID: number, ctx: CustomContextMessage) 
 
     if (!event) return
 
-    const remindButton = makeCallbackButton('Напомнить', BUTTON_TYPES['reminder-ask'], { eventID: event.id })
+    const remindButton = makeCallbackButton(BUTTONS.texts.remind, BUTTONS.types['reminder-ask'], { eventID: event.id })
     const message = eventsMessages.getEventCard(event)
 
     ctx.replyWithHTML(message, {
