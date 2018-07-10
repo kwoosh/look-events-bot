@@ -10,7 +10,7 @@ const commands = {
 
 export const toHear = {
     reminder: /\/r(\d+)/,
-    event: /\/e(\d+)/,
+    event: /\/e(\d+)/, 
 }
 
 export default commands

@@ -1,4 +1,4 @@
-import Telegraf from 'telegraf'
+import Telegraf, { CustomContextMessage } from 'telegraf'
 import config from '../config'
 import db from '../db'
 import askForRemindDay from './actions/remind/askForRemindDay'
@@ -11,10 +11,11 @@ import { BUTTON_TYPES } from './buttons'
 import commands, { toHear } from './commands'
 import staticReplies from './messages/staticReplies'
 
-const bot = new Telegraf(process.env.BOT_TOKEN || config.BOT_TOKEN)
+const bot = new Telegraf<CustomContextMessage>(process.env.BOT_TOKEN || config.BOT_TOKEN)
 
 bot.start(ctx => {
-    db.addUser(ctx.from.id, ctx.from.username)
+    if (!ctx.from) return
+    db.addUser(ctx.from.id, ctx.from.username || '')
     ctx.replyWithHTML(staticReplies.start)
 })
 
@@ -31,16 +32,19 @@ bot.command(commands['myReminders'], async ctx => {
 })
 
 bot.hears(toHear['reminder'], ctx => {
+    if (!ctx.match) return
     sendReminderCard(Number(ctx.match[1]), ctx)
 })
 
 bot.hears(toHear['event'], ctx => {
+    if (!ctx.match) return
     sendEventCard(Number(ctx.match[1]), ctx)
 })
 
 bot.on('callback_query', async ctx => {
+    if (!ctx.callbackQuery) return
     type QueryData = { type: string; payload: any }
-    const data = JSON.parse(ctx.callbackQuery.data)
+    const data = JSON.parse(ctx.callbackQuery.data || '')
     const { type, payload }: QueryData = data
 
     switch (type) {

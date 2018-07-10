@@ -16,3 +16,13 @@ export const BUTTON_TYPES = {
     'reminder-new': 'r:n',
     'reminder-delete': 'r:d',
 }
+
+export const buttonsText = {
+    delete: 'Удалить!',
+    remind: 'Напомнить =)',
+    whenRemind: {
+        1: 'За день',
+        3: 'За 3 дня',
+        7: 'За неделю',
+    },
+}

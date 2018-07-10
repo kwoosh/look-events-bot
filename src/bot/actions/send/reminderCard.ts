@@ -1,10 +1,12 @@
-import { ContextMessageUpdate } from 'telegraf'
+import { CustomContextMessage } from 'telegraf'
 import api from '../../../api'
 import db from '../../../db'
 import { BUTTON_TYPES, makeCallbackButton } from '../../buttons'
 import remindersMessages from '../../messages/reminders'
 
-export async function sendReminderCard(reminderID: number, ctx: ContextMessageUpdate) {
+export async function sendReminderCard(reminderID: number, ctx: CustomContextMessage) {
+    if (!ctx.from) return
+
     const reminder = await db.getReminder(ctx.from.id, reminderID).catch(err => {
         console.error(err)
     })
