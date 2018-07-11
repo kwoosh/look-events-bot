@@ -1,10 +1,10 @@
 import { Event } from '../../api'
 
-export function hashtagTopics(topics: string[]) {
+export function hashtagArray(arr: string[], joiner: string) {
     const invalidChars = /(\s|-)/i
     const _ = '_'
 
-    return topics.map(topic => `#${topic.replace(invalidChars, _)}`).join(' ')
+    return arr.map(elem => `#${elem.replace(invalidChars, _)}`).join(joiner)
 }
 
 export default {
@@ -15,11 +15,11 @@ export default {
 <b>${e.title}</b>
 
 📅 ${e.time.raw}
-⛳️ ${e.places.join(', ')}
+⛳️ ${hashtagArray(e.places, ' ')}
 💵 ${e.price}
 
 ${e.description}
-${hashtagTopics(e.topics)}
+${hashtagArray(e.topics, ' ')}
 <a href="${e.image}">&#8205;</a>
 ${e.link}`
     },
