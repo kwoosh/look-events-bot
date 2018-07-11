@@ -4,7 +4,7 @@ import db from '../../../db'
 import { BUTTONS, makeCallbackButton } from '../../buttons'
 import remindersMessages from '../../messages/reminders'
 
-export async function sendReminderCard(reminderID: number, ctx: CustomContextMessage) {
+export async function sendReminderInfo(reminderID: number, ctx: CustomContextMessage) {
     if (!ctx.from) return
 
     const reminder = await db.getReminder(ctx.from.id, reminderID).catch(err => {
@@ -15,7 +15,7 @@ export async function sendReminderCard(reminderID: number, ctx: CustomContextMes
 
     const event = await api.get(reminder.eventID)
     const deleteButton = makeCallbackButton(BUTTONS.texts.delete, BUTTONS.types['reminder-delete'], { reminderID: reminder.id })
-    const message = remindersMessages.getReminderCard(reminder, event)
+    const message = remindersMessages.getReminderInfo(reminder, event)
 
     ctx.replyWithHTML(message, {
         reply_markup: { inline_keyboard: [[deleteButton]] },
