@@ -1,4 +1,6 @@
 import * as mysql from 'mysql'
+import moment from 'moment'
+import { format } from '../bot/dates'
 import config from '../config'
 
 export type User = {
@@ -92,6 +94,19 @@ class DB {
     getReminders(userID: number, eventID?: number): Promise<Reminder[]> {
         const withEvent = eventID ? `AND eventID = ${eventID}` : ''
         const sql = `SELECT * FROM reminders WHERE userID = ${userID} ${withEvent}`
+
+        return new Promise((resolve, reject) => {
+            database.query(sql, (err, results: Reminder[]) => {
+                if (err) reject(err)
+
+                resolve(results)
+            })
+        })
+    }
+
+    getTodayReminders(): Promise<Reminder[]> {
+        const today = format(moment())
+        const sql = `SELECT * FROM reminders WHERE date = '${today}'`
 
         return new Promise((resolve, reject) => {
             database.query(sql, (err, results: Reminder[]) => {
