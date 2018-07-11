@@ -1,5 +1,6 @@
-import { isExist } from '../src/bot/actions/reminder/newReminder'
+import { isReminderExist } from '../src/bot/actions/remind/newReminder'
 import { Reminder } from '../src/db'
+import moment from 'moment'
 
 const createReminder = (id: number, date: string) => ({ eventID: 69, messageID: 777, userID: 3, id, date: `2018-07-${date}` })
 
@@ -7,7 +8,8 @@ describe('isExist function', () => {
     const EVENT_DATE = '2018-07-11'
 
     test('Should return true if reminder on date allready exists', () => {
-        const remindDate = '2018-07-10'
+        const remindDate = moment('2018-07-10')
+
         const reminders: Reminder[] = [
             createReminder(1, '10'),
             createReminder(2, '08'),
@@ -15,11 +17,11 @@ describe('isExist function', () => {
             createReminder(4, '03'),
         ]
 
-        expect(isExist(remindDate, reminders)).toBeTruthy()
+        expect(isReminderExist(remindDate, reminders)).toBeTruthy()
     })
 
     test('Should return false if reminder on date does not exist', () => {
-        const remindDate = '2018-07-10'
+        const remindDate = moment('2018-07-10')
         const reminders: Reminder[] = [
             createReminder(1, '11'),
             createReminder(2, '08'),
@@ -27,13 +29,13 @@ describe('isExist function', () => {
             createReminder(4, '12'),
         ]
 
-        expect(isExist(remindDate, reminders)).toBeFalsy()
+        expect(isReminderExist(remindDate, reminders)).toBeFalsy()
     })
 
     test('Should return false if reminders array is empty', () => {
-        const remindDate = '2018-07-10'
+        const remindDate = moment('2018-07-10')
         const reminders: Reminder[] = []
 
-        expect(isExist(remindDate, reminders)).toBeFalsy()
+        expect(isReminderExist(remindDate, reminders)).toBeFalsy()
     })
 })
