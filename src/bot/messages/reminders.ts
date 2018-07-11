@@ -2,10 +2,11 @@ import moment from 'moment'
 import { Event } from '../../api'
 import { Reminder } from '../../db'
 import { commands } from '../commands'
+import { BUTTONS } from '../buttons'
 
 export default {
     yourReminders: '<b>Ваши напоминания</b> 📆\n\n',
-    deleteReminder: '\nЧто бы удалить напоминание нажмите на кнопку [<b>Удалить</b>] под карточкой напоминания.',
+    deleteReminder: `\nЧто бы удалить напоминание нажмите на кнопку [<b>${BUTTONS.texts.delete}</b>] под карточкой напоминания.`,
     whenToRemind: 'Когда нужно напомнить?',
     lateForReminders: '😱Уже слишкмо <b>поздно</b> для напоминаний, это cобитие проводиться сегодня, поспеши!',
     deleted: `Напоминание <b>удалено</b> ☑️\n\nОстальные напоминания 👉 /${commands.myReminders}`,
@@ -13,26 +14,32 @@ export default {
     remindersEmpty: 'У вас пока нету напоминаний 🤗',
 
     reminderCreated(title: string, date: string) {
-        return `Успешно создано новое напоминание про <b>${title}</b> на дату <b>${date}</b>📌
+        return `Успешно создано новое напоминание про <b>${title}</b> на <b>${moment(date).format('D MMMM')}</b>📌
 
 Список напоминаний 👉 /${commands.myReminders}`
     },
 
-    reminderExist(title: string, date: string, remidnerID: number) {
-        return `У вас уже существует напоминание про <b>${title}</b>(/${commands.reminder}${remidnerID}) на дату <b>${date}</b>😑`
+    reminderExist(title: string, remidnerID: number) {
+        return `У вас уже существует напоминание про <b>${title}</b> на эту дату 😑 (/${commands.reminder}${remidnerID})
+
+Попробуйте создать напоминание на другую дату 👍`
     },
 
-    singleLine(title: string, date: string, id: number) {
-        const titleMaxLength = 20
-        if (title.length > titleMaxLength) title = title.slice(0, titleMaxLength) + '...'
+    singleLine(title: string, remidnerID: number, reminderDate: string) {
+        const TITLE_MAX_LENGTH = 45
+        if (title.length > TITLE_MAX_LENGTH) title = title.slice(0, TITLE_MAX_LENGTH).trim() + '...'
 
-        return `💡 <b>${moment(date).format('D MMMM')}</b> ${title} (/${commands.reminder}${id})\n`
+        const date = moment(reminderDate).format('D MMMM')
+
+        return `💡 <b>${date}</b> (/${commands.reminder}${remidnerID}) ${title}\n\n`
     },
 
-    getReminderCard(r: Reminder, e: Event) {
-        return `Напоминание про <b>${e.title}</b> (/${commands.event}${e.id})
+    getReminderInfo(r: Reminder, e: Event) {
+        return `📝 Информация о напоминании: (/${commands.reminder}${r.id})
 
-Когда Напомнить: <b>${moment(r.date).format('D MMMM')}</b>
+Событие: <b>${e.title}</b> (/${commands.event}${e.id})
+
+Когда напомнить: <b>${moment(r.date).format('D MMMM')}</b>
 Начало события: <b>${e.time.raw}</b>
 
 Остальные напоминания 👉 /${commands.myReminders}`
