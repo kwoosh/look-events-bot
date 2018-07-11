@@ -1,16 +1,18 @@
 import Telegraf, { CustomContextMessage } from 'telegraf'
+import moment from 'moment'
 import config from '../config'
 import db from '../db'
 import askForRemindDay from './actions/remind/askForRemindDay'
 import deleteReminder from './actions/remind/deleteReminder'
-import listReminders from './actions/remind/listReminders'
+import remindersList from './actions/send/remindersList'
 import newReminder from './actions/remind/newReminder'
 import { sendEventCard } from './actions/send/eventCard'
-import { sendReminderCard } from './actions/send/reminderCard'
+import { sendReminderInfo } from './actions/send/reminderInfo'
 import { BUTTONS } from './buttons'
 import { commands, toHear } from './commands'
 import staticReplies from './messages/staticReplies'
 
+moment.locale('ru')
 const bot = new Telegraf<CustomContextMessage>(process.env.BOT_TOKEN || config.BOT_TOKEN)
 
 bot.start(ctx => {
@@ -28,12 +30,12 @@ bot.command(commands['about'], ctx => {
 })
 
 bot.command(commands['myReminders'], async ctx => {
-    listReminders(ctx)
+    remindersList(ctx)
 })
 
 bot.hears(toHear['reminder'], ctx => {
     if (!ctx.match) return
-    sendReminderCard(Number(ctx.match[1]), ctx)
+    sendReminderInfo(Number(ctx.match[1]), ctx)
 })
 
 bot.hears(toHear['event'], ctx => {
