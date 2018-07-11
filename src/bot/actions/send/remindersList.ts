@@ -14,7 +14,7 @@ export default async function(ctx: CustomContextMessage) {
         const reminder = reminders[i]
         const event = await api.get(reminder.eventID)
 
-        message += remindersMessages.singleLine(event.title, reminder.date, reminder.id)
+        message += remindersMessages.singleLine(event.title, reminder.id, reminder.date)
     }
 
     if (!reminders.length) message = remindersMessages.remindersEmpty
