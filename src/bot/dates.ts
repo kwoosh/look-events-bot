@@ -7,3 +7,7 @@ export function getRemindDate(exactDate: moment.MomentInput, days: number) {
 export function format(date: moment.Moment) {
     return date.format('YYYY-MM-DD')
 }
+
+export function isSameDate(first: moment.Moment, second: moment.Moment) {
+    return format(first) === format(second)
+}
