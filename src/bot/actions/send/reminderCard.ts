@@ -1,9 +1,15 @@
 import Telegraf, { CustomContextMessage } from 'telegraf'
+import moment from 'moment'
 import db from '../../../db'
 import api from '../../../api'
 import remindersMessages from '../../messages/reminders'
 
 export async function sendReminderCard(bot: Telegraf<CustomContextMessage>) {
+    const allowedTime = [9, 12, 15, 18, 19, 21]
+    const currentHours = moment().get('h')
+
+    if (!allowedTime.includes(currentHours)) return
+
     const todayReminders = await db.getTodayReminders()
 
     for (let i = 0; i < todayReminders.length; i++) {
@@ -14,8 +20,7 @@ export async function sendReminderCard(bot: Telegraf<CustomContextMessage>) {
 
         const obj: any = { parse_mode: 'HTML' }
 
-        const msg = await bot.telegram.sendMessage(reminder.userID, messageText, {
-            // reply_to_message_id: reminder.messageID,
+        await bot.telegram.sendMessage(reminder.userID, messageText, {
             ...obj, // need this hack because of Telegraf's weak typing =(
         })
 
