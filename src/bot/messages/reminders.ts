@@ -11,7 +11,7 @@ export default {
     lateForReminders: '😱Уже слишкмо <b>поздно</b> для напоминаний, это cобитие проводиться сегодня, поспеши!',
     deleted: `Напоминание <b>удалено</b> ☑️\n\nОстальные напоминания 👉 /${commands.myReminders}`,
     reminderNonExist: `У вас нету такого напоминания 🤷🏼‍♂️ \n\nПроверьте еще раз 👉 /${commands.myReminders}`,
-    remindersEmpty: 'У вас пока нету напоминаний 🤗',
+    remindersEmpty: 'У вас пока нету напоминаний 🤗\n\n',
 
     reminderCreated(title: string, date: string) {
         return `Успешно создано новое напоминание про <b>${title}</b> на <b>${moment(date).format('D MMMM')}</b>📌
@@ -43,5 +43,31 @@ export default {
 Начало события: <b>${e.time.raw}</b>
 
 Остальные напоминания 👉 /${commands.myReminders}`
+    },
+
+    getReminderCard(r: Reminder, e: Event) {
+        const image = 'https://www.abrivia.ie/wp-content/uploads/2016/06/items_not_to_forget.jpg'
+
+        const date = moment(e.time.dates[0]).format('D MMMM')
+        const diff = moment(e.time.dates[0]).diff(moment(r.date), 'days')
+
+        let when: string = ''
+
+        if (diff === 1) when = `завтра`
+        else if (diff === 3) when = `через 3 дня`
+        else if (diff === 7) when = `через неделю`
+
+        const isOnline = e.places.includes('Online')
+        const city = e.places.filter(place => place !== 'Online')[0]
+        const placeText = isOnline ? 'в Онлайне' : `в городе <b>${city}</b>`
+
+        return `💡 <b>Напоминание!</b>
+
+Уже ${when} 😱, а точнее ${date} ${placeText} пройдет событие <b>${e.title}</b> (/${commands.event}${e.id})
+
+👌 Подробнее про событие <a href="${e.link}">тут</a> 👈
+
+<b>Такое нельзя пропустить 😍🤑🤓</b>
+`
     },
 }
