@@ -8,11 +8,13 @@ import remindersList from './actions/send/remindersList'
 import newReminder from './actions/remind/newReminder'
 import { sendEventCard } from './actions/send/eventCard'
 import { sendReminderInfo } from './actions/send/reminderInfo'
+import { sendReminderCard } from './actions/send/reminderCard'
 import { BUTTONS } from './buttons'
 import { commands, toHear } from './commands'
 import staticReplies from './messages/staticReplies'
 
 moment.locale('ru')
+
 const bot = new Telegraf<CustomContextMessage>(process.env.BOT_TOKEN || config.BOT_TOKEN)
 
 bot.start(ctx => {
@@ -71,3 +73,7 @@ bot.on('callback_query', async ctx => {
 })
 
 bot.startPolling()
+
+setInterval(() => {
+    sendReminderCard(bot)
+}, 1000 * 60 * 10)
