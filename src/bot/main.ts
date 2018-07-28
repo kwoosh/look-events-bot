@@ -1,79 +1,34 @@
-import Telegraf, { CustomContextMessage } from 'telegraf'
 import moment from 'moment'
+import Telegraf, { CustomContextMessage } from 'telegraf'
 import config from '../config'
-import db from '../db'
-import askForRemindDay from './actions/remind/askForRemindDay'
-import deleteReminder from './actions/remind/deleteReminder'
-import remindersList from './actions/send/remindersList'
-import newReminder from './actions/remind/newReminder'
-import { sendEventCard } from './actions/send/eventCard'
-import { sendReminderInfo } from './actions/send/reminderInfo'
-import { sendReminderCard } from './actions/send/reminderCard'
-import { BUTTONS } from './buttons'
-import { commands, toHear } from './commands'
-import staticReplies from './messages/staticReplies'
+import sendReminderCard from './actions/reminders/sendCard'
+import setupAbout from './commands/about'
+import setupHelp from './commands/help'
+import setupMyReminders from './commands/myReminders'
+import setupStart from './commands/start'
+import setupSingleEvent from './messages/getEvent'
+import setupSingleReminder from './messages/getReminder'
+import setupQueryAnswers from './queryAnswers'
 
 moment.locale('ru')
 
 const bot = new Telegraf<CustomContextMessage>(process.env.BOT_TOKEN || config.BOT_TOKEN)
 
-bot.start(ctx => {
-    if (!ctx.from) return
-    db.addUser(ctx.from.id, ctx.from.username || '')
-    ctx.replyWithHTML(staticReplies.start)
-})
+function setupBot() {
+    setupStart(bot)
+    setupHelp(bot)
+    setupMyReminders(bot)
+    setupAbout(bot)
+    setupSingleEvent(bot)
+    setupSingleReminder(bot)
 
-bot.command(commands['help'], ctx => {
-    ctx.replyWithHTML(staticReplies['help'])
-})
+    setupQueryAnswers(bot)
 
-bot.command(commands['about'], ctx => {
-    ctx.replyWithHTML(staticReplies['about'])
-})
+    setInterval(() => {
+        sendReminderCard(bot)
+    }, 1000 * 60 * 10)
 
-bot.command(commands['myReminders'], async ctx => {
-    remindersList(ctx)
-})
+    bot.startPolling()
+}
 
-bot.hears(toHear['reminder'], ctx => {
-    if (!ctx.match) return
-    sendReminderInfo(Number(ctx.match[1]), ctx)
-})
-
-bot.hears(toHear['event'], ctx => {
-    if (!ctx.match) return
-    sendEventCard(Number(ctx.match[1]), ctx)
-})
-
-bot.on('callback_query', async ctx => {
-    if (!ctx.callbackQuery) return
-    type QueryData = { type: string; payload: any }
-    const data = JSON.parse(ctx.callbackQuery.data || '')
-    const { type, payload }: QueryData = data
-
-    switch (type) {
-        case BUTTONS.types['reminder-ask']:
-            askForRemindDay(Number(payload.eventID), ctx)
-            break
-
-        case BUTTONS.types['reminder-new']:
-            newReminder(Number(payload.eventID), Number(payload.days), Number(payload.msgID), ctx)
-            break
-
-        case BUTTONS.types['reminder-delete']:
-            deleteReminder(Number(payload.reminderID), ctx)
-            break
-
-        default:
-            console.log(`Unhandled callback_query from @${ctx.callbackQuery.from.username}`)
-            break
-    }
-
-    ctx.answerCallbackQuery()
-})
-
-bot.startPolling()
-
-setInterval(() => {
-    sendReminderCard(bot)
-}, 1000 * 60 * 10)
+setupBot()

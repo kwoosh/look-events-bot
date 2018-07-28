@@ -10,10 +10,11 @@ export type Event = {
     price: string
     places: string[]
     topics: string[]
-    time: { dates: string[]; raw: string }
+    time: {
+        dates: string[]
+        raw: string
+    }
 }
-
-const LOOK_EVENTS_API = 'https://look-events-api.herokuapp.com'
 
 class EventsAPI {
     url: string
@@ -21,7 +22,7 @@ class EventsAPI {
 
     constructor() {
         this.url = 'events'
-        this.doRequest = axios.create({ baseURL: LOOK_EVENTS_API })
+        this.doRequest = axios.create({ baseURL: process.env.LOOK_EVENTS_API || config.LOOK_EVENTS_API })
     }
 
     get(id: number | string): Promise<Event> {
@@ -39,7 +40,7 @@ class EventsAPI {
         }).then(res => res.data)
     }
 
-    getListCount(): Promise<{ count: number }> {
+    getCount(): Promise<{ count: number }> {
         return this.doRequest({
             method: 'get',
             url: `${this.url}/count`,

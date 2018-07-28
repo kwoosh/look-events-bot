@@ -7,4 +7,7 @@ declare module 'telegraf' {
         updateType?: tt.UpdateType
         updateSubTypes?: tt.MessageSubTypes
     }
+
+    export class Extra {}
+    export class Markup {}
 }

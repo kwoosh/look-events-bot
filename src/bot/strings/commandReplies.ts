@@ -1,6 +1,6 @@
-import { commands } from '../commands'
+import { commandNames } from './commandNames'
 
-export default {
+export const commandReplies = {
     start: 'Привет! Используй клавиатуру ниже, чтобы вызывать команды. Если нужна помощь, то нажми /help',
 
     about: `Look Events Bot - это телеграм-бот,
@@ -8,13 +8,13 @@ export default {
 
 Идеи, жалобы, похвалу, а также по вопросам создания ботов писать сюда – @tobira
 Нашли ошибку или неправильное поведение бота - @tobira
-Все доступные команды: /${commands.help}
+Все доступные команды: /${commandNames.help}
 Бот использует DOU.ua для полученя данных о событиях.`,
 
     help: `
 Все доступные команды:
-/${commands.settings} - настройки бота
-/${commands.myReminders} - список напоминаний
+/${commandNames.settings} - настройки бота
+/${commandNames.myReminders} - список напоминаний
 
-О боте: /${commands.about}`,
+О боте: /${commandNames.about}`,
 }
