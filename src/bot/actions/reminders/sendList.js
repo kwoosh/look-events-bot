@@ -1,9 +1,9 @@
-import { CustomContextMessage } from 'telegraf'
+// import { CustomContextMessage } from 'telegraf'
 import api from '../../../api'
 import db from '../../../db'
 import { replies } from '../../strings'
 
-export default async function(ctx: CustomContextMessage) {
+export default async function(ctx /* : CustomContextMessage */) {
     if (!ctx.from) return
 
     const reminders = await db.reminders.getList(ctx.from.id)

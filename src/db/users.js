@@ -1,15 +1,17 @@
 import * as mysql from 'mysql'
 
-export type User = {
-    id: number
-    name: string
-}
+// todo: rewrite by using ORM
+
+// export type User = {
+//     id: number
+//     name: string
+// }
 
 export class UsersDB {
-    tabaleName: string
-    connection: mysql.Connection
+    // tabaleName: string
+    // connection: mysql.Connection
 
-    constructor(connection: mysql.Connection) {
+    constructor(connection /* : mysql.Connection */) {
         this.tabaleName = 'users'
         this.connection = connection
 
@@ -27,7 +29,7 @@ export class UsersDB {
         })
     }
 
-    create(id: number, username: string) {
+    create(id /*: number */, username /* : string */) {
         const sql = `INSERT IGNORE INTO ${this.tabaleName} (id, name) VALUES (${id}, '${username || ''}')`
 
         return new Promise((resolve, reject) => {
@@ -38,11 +40,11 @@ export class UsersDB {
         })
     }
 
-    get(id: number): Promise<User> {
+    get(id) /* : number): Promise<User> */ {
         const sql = `SELECT * FROM ${this.tabaleName} WHERE id = ${id}`
 
         return new Promise((resolve, reject) => {
-            this.connection.query(sql, (err, results: User[]) => {
+            this.connection.query(sql, (err, results /* : User[] */) => {
                 resolve(results[0])
             })
         })

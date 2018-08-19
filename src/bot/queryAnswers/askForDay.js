@@ -1,11 +1,11 @@
 import moment from 'moment'
-import { CustomContextMessage, Markup } from 'telegraf'
+import Markup from 'telegraf/markup'
 import api from '../../api'
 import { cbQueryTypes, remindDays, replies } from '../strings'
+// import { CustomContextMessage, Markup } from 'telegraf'
 
-const markup: any = Markup
-
-export default async function(payload: string[], ctx: CustomContextMessage) {
+// export default async function(payload: string[], ctx: CustomContextMessage) {
+export default async function(payload, ctx) {
     if (!ctx.callbackQuery) return
 
     const [eventID] = payload
@@ -19,15 +19,15 @@ export default async function(payload: string[], ctx: CustomContextMessage) {
     if (diff === 0) {
         ctx.replyWithHTML(replies.lateForReminders, { reply_to_message_id: msgID })
     } else {
-        const buttonsRow: any[] = []
+        const buttonsRow /* : any[] */ = []
 
         remindDays.forEach(({ days, text }) => {
             if (diff >= days) {
                 const data = `${cbQueryTypes['reminder-new']}|${event.id}:${days}:${msgID}`
-                buttonsRow.push(markup.callbackButton(text, data))
+                buttonsRow.push(Markup.callbackButton(text, data))
             }
         })
 
-        ctx.replyWithHTML(replies.whenToRemind, markup.inlineKeyboard(buttonsRow).extra({ reply_to_message_id: msgID }))
+        ctx.replyWithHTML(replies.whenToRemind, Markup.inlineKeyboard(buttonsRow).extra({ reply_to_message_id: msgID }))
     }
 }

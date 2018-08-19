@@ -4,9 +4,10 @@ import askForDay from './askForDay'
 import createReminder from './createReminder'
 import removeReminder from './removeReminder'
 
-type QueryData = { type: string; payload: string[] }
+// type QueryData = { type: string; payload: string[] }
 
-function parseCallbackQueryData(data: string | undefined): QueryData {
+// function parseCallbackQueryData(data: string | undefined): QueryData {
+function parseCallbackQueryData(data) {
     if (!data) return { type: '', payload: [] }
 
     const [type, payload] = data.split('|')
@@ -14,7 +15,7 @@ function parseCallbackQueryData(data: string | undefined): QueryData {
     return { type, payload: payload.split(':') }
 }
 
-export default function(bot: Telegraf<CustomContextMessage>) {
+export default function(bot /*: Telegraf<CustomContextMessage> */) {
     bot.on('callback_query', async ctx => {
         if (!ctx.callbackQuery) return
 
@@ -36,8 +37,6 @@ export default function(bot: Telegraf<CustomContextMessage>) {
             case cbQueryTypes['events-change-page']:
                 const [lastOffset, direction] = payload
                 console.log({ lastOffset, direction })
-
-                // ctx.Ed('dfb')
                 break
 
             default:

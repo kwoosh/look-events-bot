@@ -7,7 +7,7 @@
   "repository": "https://github.com/kwoosh/look-events-bot",
   "scripts": {
     "dev": "nodemon",
-    "start": "ts-node src/bot/main.ts",
+    "start": "ts-node src/app.js",
     "test": "jest"
   },
   "engines": {
@@ -26,6 +26,7 @@
     "nodemon": "^1.17.5",
     "ts-jest": "^22.4.6",
     "ts-node": "^6.2.0",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "dotenv": "^6.0.0"
   }
 }

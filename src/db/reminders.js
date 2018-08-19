@@ -2,20 +2,20 @@ import * as mysql from 'mysql'
 import moment from 'moment'
 import { format } from '../utils/dates'
 
-export type Reminder = {
-    id: number
-    userID: number
-    eventID: number
-    messageID: number
-    date: string
-}
+// export type Reminder = {
+//     id: number
+//     userID: number
+//     eventID: number
+//     messageID: number
+//     date: string
+// }
 
 export class RemindersDB {
-    tabaleName: string
-    connection: mysql.Connection
+    // tabaleName: string
+    // connection: mysql.Connection
 
-    constructor(connection: mysql.Connection) {
-        this.tabaleName = 'users'
+    constructor(connection /* : mysql.Connection */) {
+        this.tabaleName = 'reminders'
         this.connection = connection
 
         this.createTable()
@@ -35,7 +35,8 @@ export class RemindersDB {
         })
     }
 
-    create(userID: number, eventID: number, messageID: number, date: string) {
+    // create(userID: number, eventID: number, messageID: number, date: string) {
+    create(userID, eventID, messageID, date) {
         const sql = `INSERT INTO reminders (userID, eventID, messageID, date) VALUES (
             ${userID},
             ${eventID},
@@ -51,11 +52,12 @@ export class RemindersDB {
         })
     }
 
-    get(userID: number, id: number): Promise<Reminder> {
+    // get(userID: number, id: number): Promise<Reminder> {
+    get(userID, id) {
         const sql = `SELECT * FROM reminders WHERE userID = ${userID} AND id = ${id}`
 
         return new Promise((resolve, reject) => {
-            this.connection.query(sql, (err, results: Reminder[]) => {
+            this.connection.query(sql, (err, results /* : Reminder[] */) => {
                 if (err) reject(err)
 
                 resolve(results[0])
@@ -63,7 +65,7 @@ export class RemindersDB {
         })
     }
 
-    delete(id: number) {
+    delete(id /* : number */) {
         const sql = `DELETE FROM reminders WHERE id = ${id}`
 
         return new Promise((resolve, reject) => {
@@ -74,12 +76,13 @@ export class RemindersDB {
         })
     }
 
-    getList(userID: number, eventID?: number): Promise<Reminder[]> {
+    // getList(userID: number, eventID?: number): Promise<Reminder[]> {
+    getList(userID, eventID) {
         const withEvent = eventID ? `AND eventID = ${eventID}` : ''
         const sql = `SELECT * FROM reminders WHERE userID = ${userID} ${withEvent}`
 
         return new Promise((resolve, reject) => {
-            this.connection.query(sql, (err, results: Reminder[]) => {
+            this.connection.query(sql, (err, results /* : Reminder[] */) => {
                 if (err) reject(err)
 
                 resolve(results)
@@ -87,12 +90,12 @@ export class RemindersDB {
         })
     }
 
-    getAllForToday(): Promise<Reminder[]> {
+    getAllForToday() /* : Promise<Reminder[]> */ {
         const today = format(moment())
         const sql = `SELECT * FROM reminders WHERE date = '${today}'`
 
         return new Promise((resolve, reject) => {
-            this.connection.query(sql, (err, results: Reminder[]) => {
+            this.connection.query(sql, (err, results /* : Reminder[] */) => {
                 if (err) reject(err)
 
                 resolve(results)

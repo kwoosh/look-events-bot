@@ -1,6 +1,4 @@
 import moment from 'moment'
-import Telegraf, { CustomContextMessage } from 'telegraf'
-import config from '../config'
 import sendReminderCard from './actions/reminders/sendCard'
 import setupAbout from './commands/about'
 import setupHelp from './commands/help'
@@ -10,12 +8,15 @@ import setupStart from './commands/start'
 import setupSingleEvent from './messages/getEvent'
 import setupSingleReminder from './messages/getReminder'
 import setupQueryAnswers from './queryAnswers'
+import Telegraf from 'telegraf'
+// import Telegraf, { CustomContextMessage } from 'telegraf'
 
 moment.locale('ru')
 
-const bot = new Telegraf<CustomContextMessage>(process.env.BOT_TOKEN || config.BOT_TOKEN)
+// const bot = new Telegraf<CustomContextMessage>(process.env.BOT_TOKEN)
+const bot = new Telegraf(process.env.BOT_TOKEN)
 
-function setupBot() {
+export function startBot() {
     setupStart(bot)
     setupHelp(bot)
     setupMyReminders(bot)
@@ -32,5 +33,3 @@ function setupBot() {
 
     bot.startPolling()
 }
-
-setupBot()
