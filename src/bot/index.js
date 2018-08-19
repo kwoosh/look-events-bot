@@ -9,11 +9,9 @@ import setupSingleEvent from './messages/getEvent'
 import setupSingleReminder from './messages/getReminder'
 import setupQueryAnswers from './queryAnswers'
 import Telegraf from 'telegraf'
-// import Telegraf, { CustomContextMessage } from 'telegraf'
 
 moment.locale('ru')
 
-// const bot = new Telegraf<CustomContextMessage>(process.env.BOT_TOKEN)
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 export function startBot() {

@@ -1,8 +1,7 @@
-// import Telegraf, { CustomContextMessage } from 'telegraf'
 import sendInfo from '../actions/reminders/sendInfo'
 import { hearMessages } from '../strings'
 
-export default function(bot /* : Telegraf<CustomContextMessage> */) {
+export default function(bot) {
     bot.hears(hearMessages['reminder'], ctx => {
         if (!ctx.match) return
 

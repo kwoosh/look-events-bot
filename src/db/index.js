@@ -2,13 +2,12 @@ import * as mysql from 'mysql'
 import { RemindersDB } from './reminders'
 import { UsersDB } from './users'
 
-const database = mysql.createConnection(process.env.DB_URI)
+// todo: rewrite by using ORM
 
 class DB {
-    // users: UsersDB
-    // reminders: RemindersDB
-
     constructor() {
+        const database = mysql.createConnection(process.env.DB_URI)
+
         database.connect(err => {
             if (err) throw err
             console.log('Connected to db!')
@@ -20,5 +19,3 @@ class DB {
 }
 
 export default new DB()
-// export { Reminder } from './reminders'
-// export { User } from './users'

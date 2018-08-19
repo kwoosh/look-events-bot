@@ -1,10 +1,8 @@
-// import { CustomContextMessage, Markup } from 'telegraf'
 import Markup from 'telegraf/markup'
 import api from '../../../api'
 import db from '../../../db'
 import { buttons, cbQueryTypes, replies } from '../../strings'
 
-// export default async function(reminderID: number, ctx: CustomContextMessage) {
 export default async function(reminderID, ctx) {
     if (!ctx.from) return
 

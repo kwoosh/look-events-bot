@@ -1,10 +1,7 @@
 import moment from 'moment'
 import { buttons } from './buttons'
 import { commandNames } from './commandNames'
-// import { Event } from '../../api'
-// import { Reminder } from '../../db'
 
-// export function hashtagArray(arr: string[], joiner: string) {
 export function hashtagArray(arr, joiner) {
     const invalidChars = /(\s|-)/i
     const _ = '_'
@@ -22,21 +19,18 @@ export const replies = {
     remindersEmpty: 'У вас пока нету напоминаний 🤗\n\n',
     eventNotFound: 'Хмм... 😕 Не могу найти такое событие 🤷🏼‍♂️\nМожет быть, оно уже проло, и ты все пропустил? 😜',
 
-    // reminderCreated(title: string, date: string) {
     reminderCreated(title, date) {
         return `Успешно создано новое напоминание про <b>${title}</b> на <b>${moment(date).format('D MMMM')}</b>📌
 
 Список напоминаний 👉 /${commandNames.myReminders}`
     },
 
-    // reminderExist(title: string, remidnerID: number) {
     reminderExist(title, remidnerID) {
         return `У вас уже существует напоминание про <b>${title}</b> на эту дату 😑 (/${commandNames.r}${remidnerID})
 
 Попробуйте создать напоминание на другую дату 👍`
     },
 
-    // singleLine(title: string, remidnerID: number, reminderDate: string) {
     singleLine(title, remidnerID, reminderDate) {
         const TITLE_MAX_LENGTH = 45
         if (title.length > TITLE_MAX_LENGTH) title = title.slice(0, TITLE_MAX_LENGTH).trim() + '...'
@@ -46,7 +40,6 @@ export const replies = {
         return `💡 <b>${date}</b> (/${commandNames.r}${remidnerID}) ${title}\n\n`
     },
 
-    // getReminderInfo(r: Reminder, e: Event) {
     getReminderInfo(r, e) {
         return `📝 Информация о напоминании: (/${commandNames.r}${r.id})
 
@@ -58,18 +51,15 @@ export const replies = {
 Остальные напоминания 👉 /${commandNames.myReminders}`
     },
 
-    // getReminderCard(r: Reminder, e: Event) {
     getReminderCard(r, e) {
-        const image = 'https://www.abrivia.ie/wp-content/uploads/2016/06/items_not_to_forget.jpg'
-
         const date = moment(e.time.dates[0]).format('D MMMM')
         const diff = moment(e.time.dates[0]).diff(moment(r.date), 'days')
 
         let when /* : string */ = ''
 
-        if (diff === 1) when = `завтра`
-        else if (diff === 3) when = `через 3 дня`
-        else if (diff === 7) when = `через неделю`
+        if (diff === 1) when = 'завтра'
+        else if (diff === 3) when = 'через 3 дня'
+        else if (diff === 7) when = 'через неделю'
 
         const isOnline = e.places.includes('Online')
         const city = e.places.filter(place => place !== 'Online')[0]
@@ -85,7 +75,7 @@ export const replies = {
 `
     },
 
-    getEventCard(e /* : Event */) {
+    getEventCard(e) {
         return `
 <b>${e.title}</b>
 

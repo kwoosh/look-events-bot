@@ -3,17 +3,13 @@ import api from '../../api'
 import { format, getRemindDate, isSameDate } from '../../utils/dates'
 import db from '../../db'
 import { replies } from '../strings'
-// import { CustomContextMessage } from 'telegraf'
-// import db, { Reminder } from '../../db'
 
-// export function isReminderExist(remindDate: moment.Moment, reminders: Reminder[]) {
 export function isReminderExist(remindDate, reminders) {
     return reminders.reduce((prev, existed) => {
         return isSameDate(moment(existed.date), remindDate) ? true : prev
     }, false)
 }
 
-// export default async function(payload: string[], ctx: CustomContextMessage) {
 export default async function(payload, ctx) {
     if (!ctx.from) return
 

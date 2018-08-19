@@ -2,9 +2,7 @@ import moment from 'moment'
 import Markup from 'telegraf/markup'
 import api from '../../api'
 import { cbQueryTypes, remindDays, replies } from '../strings'
-// import { CustomContextMessage, Markup } from 'telegraf'
 
-// export default async function(payload: string[], ctx: CustomContextMessage) {
 export default async function(payload, ctx) {
     if (!ctx.callbackQuery) return
 
@@ -19,7 +17,7 @@ export default async function(payload, ctx) {
     if (diff === 0) {
         ctx.replyWithHTML(replies.lateForReminders, { reply_to_message_id: msgID })
     } else {
-        const buttonsRow /* : any[] */ = []
+        const buttonsRow = []
 
         remindDays.forEach(({ days, text }) => {
             if (diff >= days) {

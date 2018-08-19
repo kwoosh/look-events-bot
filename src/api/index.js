@@ -1,24 +1,6 @@
-import axios, { AxiosInstance } from 'axios'
-
-// export type Event = {
-//     id: number
-//     title: string
-//     description: string
-//     image: string
-//     link: string
-//     price: string
-//     places: string[]
-//     topics: string[]
-//     time: {
-//         dates: string[]
-//         raw: string
-//     }
-// }
+import axios from 'axios'
 
 class EventsAPI {
-    // url: string
-    // doRequest: AxiosInstance
-
     constructor() {
         this.url = 'events'
         this.doRequest = axios.create({
@@ -26,14 +8,14 @@ class EventsAPI {
         })
     }
 
-    get(id /* : number | string */) /* : Promise<Event> */ {
+    get(id) {
         return this.doRequest({
             method: 'get',
             url: `${this.url}/${Number(id)}`,
         }).then(res => res.data)
     }
 
-    getList(params = {}) /* : Promise<Event[]> */ {
+    getList(params = {}) {
         return this.doRequest({
             method: 'get',
             url: `${this.url}/`,
@@ -41,7 +23,7 @@ class EventsAPI {
         }).then(res => res.data)
     }
 
-    getCount() /* : Promise<{ count: number }> */ {
+    getCount() {
         return this.doRequest({
             method: 'get',
             url: `${this.url}/count`,
