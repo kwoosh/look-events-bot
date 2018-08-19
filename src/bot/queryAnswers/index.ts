@@ -33,6 +33,13 @@ export default function(bot: Telegraf<CustomContextMessage>) {
                 removeReminder(payload, ctx)
                 break
 
+            case cbQueryTypes['events-change-page']:
+                const [lastOffset, direction] = payload
+                console.log({ lastOffset, direction })
+
+                // ctx.Ed('dfb')
+                break
+
             default:
                 console.log(`Unhandled callback_query from @${ctx.callbackQuery.from.username}`)
                 break

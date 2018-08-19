@@ -9,4 +9,5 @@ export const cbQueryTypes = {
     'reminder-ask': 'ra',
     'reminder-new': 'rn',
     'reminder-delete': 'rd',
+    'events-change-page': 'ecp',
 }
