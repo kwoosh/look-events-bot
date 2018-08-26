@@ -1,8 +1,8 @@
+import { editEventsList } from '../actions/eventsList'
 import { cbQueryTypes } from '../strings'
 import askForDay from './askForDay'
 import createReminder from './createReminder'
-import removeReminder from './removeReminder'
-import { generateListWithPagination } from '../actions/events/sendList'
+import deleteReminder from './deleteReminder'
 
 function parseCallbackQueryData(data) {
     if (!data) return { type: '', payload: [] }
@@ -12,7 +12,7 @@ function parseCallbackQueryData(data) {
     return { type, payload: payload.split(':') }
 }
 
-export default function(bot) {
+export function setupCallbacksAnswers(bot) {
     bot.on('callback_query', async ctx => {
         if (!ctx.callbackQuery) return
 
@@ -20,24 +20,20 @@ export default function(bot) {
 
         switch (type) {
             case cbQueryTypes['reminder-ask']: {
-                askForDay(payload, ctx)
+                askForDay(ctx, payload)
                 break
             }
             case cbQueryTypes['reminder-new']: {
-                createReminder(payload, ctx)
+                createReminder(ctx, payload)
                 break
             }
             case cbQueryTypes['reminder-delete']: {
-                removeReminder(payload, ctx)
+                deleteReminder(ctx, payload)
                 break
             }
             case cbQueryTypes['events-change-page']: {
                 const [newPage] = payload
-                console.log({ newPage })
-
-                const { markup, messageText } = await generateListWithPagination(newPage)
-
-                ctx.editMessageText(messageText, markup)
+                editEventsList(ctx, Number(newPage))
                 break
             }
             default: {

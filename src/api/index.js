@@ -27,7 +27,7 @@ class EventsAPI {
         return this.doRequest({
             method: 'get',
             url: `${this.url}/count`,
-        }).then(res => res.data)
+        }).then(res => res.data.count)
     }
 }
 

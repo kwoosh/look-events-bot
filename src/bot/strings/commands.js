@@ -1,4 +1,4 @@
-export const commandNames = {
+export const commands = {
     eventsList: 'events_list',
     myReminders: 'my_reminders',
     settings: 'settings',

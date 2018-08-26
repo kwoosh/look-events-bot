@@ -2,7 +2,7 @@ import Extra from 'telegraf/extra'
 import api from '../../../api'
 import { buttons, cbQueryTypes, replies } from '../../strings'
 
-export default async function(eventID, ctx) {
+async function sendCard(eventID, ctx) {
     const event = await api.get(eventID).catch(err => {
         if (err.response && err.response.status === 404) ctx.replyWithHTML(replies.eventNotFound)
     })
@@ -16,4 +16,9 @@ export default async function(eventID, ctx) {
             return m.inlineKeyboard([remindButton])
         })
     )
+}
+
+export default function(ctx) {
+    if (!ctx.match) return
+    sendCard(Number(ctx.match[1]), ctx)
 }

@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { buttons } from './buttons'
-import { commandNames } from './commandNames'
+import { commands } from './commands'
 
 export function hashtagArray(arr, joiner) {
     const invalidChars = /(\s|-)/i
@@ -14,19 +14,19 @@ export const replies = {
     deleteReminder: `\nЧто бы удалить напоминание нажмите на кнопку [<b>${buttons.delete}</b>] под карточкой напоминания.`,
     whenToRemind: 'Когда нужно напомнить?',
     lateForReminders: '😱Уже слишкмо <b>поздно</b> для напоминаний, это cобитие проводиться сегодня, поспеши!',
-    reminderDeleted: `Напоминание <b>удалено</b> ☑️\n\nОстальные напоминания 👉 /${commandNames.myReminders}`,
-    reminderNonExist: `У вас нету такого напоминания 🤷🏼‍♂️ \n\nПроверьте еще раз 👉 /${commandNames.myReminders}`,
+    reminderDeleted: `Напоминание <b>удалено</b> ☑️\n\nОстальные напоминания 👉 /${commands.myReminders}`,
+    reminderNonExist: `У вас нету такого напоминания 🤷🏼‍♂️ \n\nПроверьте еще раз 👉 /${commands.myReminders}`,
     remindersEmpty: 'У вас пока нету напоминаний 🤗\n\n',
     eventNotFound: 'Хмм... 😕 Не могу найти такое событие 🤷🏼‍♂️\nМожет быть, оно уже проло, и ты все пропустил? 😜',
 
     reminderCreated(title, date) {
         return `Успешно создано новое напоминание про <b>${title}</b> на <b>${moment(date).format('D MMMM')}</b>📌
 
-Список напоминаний 👉 /${commandNames.myReminders}`
+Список напоминаний 👉 /${commands.myReminders}`
     },
 
     reminderExist(title, remidnerID) {
-        return `У вас уже существует напоминание про <b>${title}</b> на эту дату 😑 (/${commandNames.r}${remidnerID})
+        return `У вас уже существует напоминание про <b>${title}</b> на эту дату 😑 (/${commands.r}${remidnerID})
 
 Попробуйте создать напоминание на другую дату 👍`
     },
@@ -37,25 +37,25 @@ export const replies = {
 
         const date = moment(reminderDate).format('D MMMM')
 
-        return `💡 <b>${date}</b> (/${commandNames.r}${remidnerID}) ${title}\n\n`
+        return `💡 <b>${date}</b> (/${commands.r}${remidnerID}) ${title}\n\n`
     },
 
     getReminderInfo(r, e) {
-        return `📝 Информация о напоминании: (/${commandNames.r}${r.id})
+        return `📝 Информация о напоминании: (/${commands.r}${r.id})
 
-Событие: <b>${e.title}</b> (/${commandNames.e}${e.id})
+Событие: <b>${e.title}</b> (/${commands.e}${e.id})
 
 Когда напомнить: <b>${moment(r.date).format('D MMMM')}</b>
 Начало события: <b>${e.time.raw}</b>
 
-Остальные напоминания 👉 /${commandNames.myReminders}`
+Остальные напоминания 👉 /${commands.myReminders}`
     },
 
     getReminderCard(r, e) {
         const date = moment(e.time.dates[0]).format('D MMMM')
         const diff = moment(e.time.dates[0]).diff(moment(r.date), 'days')
 
-        let when /* : string */ = ''
+        let when = ''
 
         if (diff === 1) when = 'завтра'
         else if (diff === 3) when = 'через 3 дня'
@@ -67,7 +67,7 @@ export const replies = {
 
         return `💡 <b>Напоминание!</b>
 
-Уже ${when} 😱, а точнее ${date} ${placeText} пройдет событие <b>${e.title}</b> (/${commandNames.e}${e.id})
+Уже ${when} 😱, а точнее ${date} ${placeText} пройдет событие <b>${e.title}</b> (/${commands.e}${e.id})
 
 👌 Подробнее про событие <a href="${e.link}">тут</a> 👈
 
@@ -87,5 +87,11 @@ ${e.description}
 ${hashtagArray(e.topics, ' ')}
 <a href="${e.image}">&#8205;</a>
 ${e.link}`
+    },
+
+    getEventsList(events) {
+        const list = events.map(event => `(/e${event.id}) <b>${event.title}</b>\n`)
+
+        return list.join('')
     },
 }

@@ -1,5 +1,3 @@
-export { buttons, cbQueryTypes, remindDays } from './buttons'
-export { commandNames } from './commandNames'
-export { commandReplies } from './commandReplies'
-export { hearMessages } from './hearMessages'
+export { buttons, cbQueryTypes } from './buttons'
+export { commands } from './commands'
 export { replies } from './replies'

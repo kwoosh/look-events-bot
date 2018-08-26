@@ -1,7 +1,7 @@
 import moment from 'moment'
 import api from '../../api'
-import { format, getRemindDate, isSameDate } from '../../utils/dates'
 import db from '../../db'
+import { format, getRemindDate, isSameDate } from '../../utils/dates'
 import { replies } from '../strings'
 
 export function isReminderExist(remindDate, reminders) {
@@ -10,7 +10,7 @@ export function isReminderExist(remindDate, reminders) {
     }, false)
 }
 
-export default async function(payload, ctx) {
+export default async function(ctx, payload) {
     if (!ctx.from) return
 
     const [eventID, daysBefore, messageID] = payload
@@ -24,7 +24,9 @@ export default async function(payload, ctx) {
     const createReminder = async () => {
         await db.reminders.create(fromID, event.id, Number(messageID), format(remindDate))
 
-        ctx.replyWithHTML(replies.reminderCreated(event.title, remindDate.format('')), { reply_to_message_id: Number(messageID) })
+        ctx.replyWithHTML(replies.reminderCreated(event.title, remindDate.format('')), {
+            reply_to_message_id: Number(messageID),
+        })
     }
 
     if (userReminders.length && userReminders) {

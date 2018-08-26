@@ -1,10 +1,13 @@
 import db from '../../db'
-import { commandReplies } from '../strings'
+import { commands } from '../strings'
 
-export default function(bot) {
-    bot.start(ctx => {
-        if (!ctx.from) return
-        db.users.create(ctx.from.id, ctx.from.username || '')
-        ctx.replyWithHTML(commandReplies['start'])
-    })
+export default function(ctx) {
+    if (!ctx.from) return
+
+    db.users.create(ctx.from.id, ctx.from.username || '')
+    ctx.replyWithHTML(
+        `Привет! Используй клавиатуру ниже, чтобы вызывать команды. Если нужна помощь, то нажми /${
+            commands.help
+        }`
+    )
 }

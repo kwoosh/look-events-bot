@@ -1,8 +1,5 @@
-import sendList from '../actions/events/sendList'
-import { commandNames } from '../strings'
+import { sendEventsList } from '../actions/eventsList'
 
-export default function(bot) {
-    bot.command(commandNames['eventsList'], async ctx => {
-        sendList(4, ctx)
-    })
+export default async function(ctx) {
+    sendEventsList(ctx, 1)
 }

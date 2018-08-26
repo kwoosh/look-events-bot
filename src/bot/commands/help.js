@@ -1,7 +1,10 @@
-import { commandNames, commandReplies } from '../strings'
+import { commands } from '../strings'
 
-export default function(bot) {
-    bot.command(commandNames['help'], ctx => {
-        ctx.replyWithHTML(commandReplies['help'])
-    })
+export default function(ctx) {
+    ctx.replyWithHTML(`
+        Все доступные команды:
+        /${commands.settings} - настройки бота
+        /${commands.myReminders} - список напоминаний
+        
+        О боте: /${commands.about}`)
 }
