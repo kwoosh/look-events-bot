@@ -1,5 +1,5 @@
 module.exports = {
-    extends: 'eslint:recommended',
+    extends: ['standard', 'prettier', 'prettier/standard'],
 
     env: {
         es6: true,
@@ -10,13 +10,5 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 2018,
         sourceType: 'module',
-    },
-
-    rules: {
-        indent: ['error', 4, { SwitchCase: 1 }],
-        'linebreak-style': ['error', 'unix'],
-        quotes: ['error', 'single'],
-        semi: ['error', 'never'],
-        'no-console': ['warn', { allow: ['warn', 'error', 'log'] }],
     },
 }
