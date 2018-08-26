@@ -3,6 +3,6 @@ import { commandNames } from '../strings'
 
 export default function(bot) {
     bot.command(commandNames['eventsList'], async ctx => {
-        sendList(0, ctx)
+        sendList(4, ctx)
     })
 }

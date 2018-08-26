@@ -2,6 +2,7 @@ import { cbQueryTypes } from '../strings'
 import askForDay from './askForDay'
 import createReminder from './createReminder'
 import removeReminder from './removeReminder'
+import { generateListWithPagination } from '../actions/events/sendList'
 
 function parseCallbackQueryData(data) {
     if (!data) return { type: '', payload: [] }
@@ -31,8 +32,12 @@ export default function(bot) {
                 break
             }
             case cbQueryTypes['events-change-page']: {
-                const [lastOffset, direction] = payload
-                console.log({ lastOffset, direction })
+                const [newPage] = payload
+                console.log({ newPage })
+
+                const { markup, messageText } = await generateListWithPagination(newPage)
+
+                ctx.editMessageText(messageText, markup)
                 break
             }
             default: {
