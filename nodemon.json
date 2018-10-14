@@ -1,5 +1,5 @@
 {
-    "ignore": ["**/*.test.ts", "**/*.spec.ts", "**/*.test.js", "**/*.spec.js", ".git", "node_modules"],
+    "ignore": ["**/*.(test|spec).js", ".git", "node_modules"],
     "watch": ["src"],
     "exec": "npm run lint && npm start",
     "ext": "js, ts, json",
