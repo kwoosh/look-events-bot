@@ -10,11 +10,8 @@ async function sendInfo(reminderID, ctx) {
 
     if (!reminder) return ctx.replyWithHTML(replies.reminderNonExist)
 
-    const event = await api.get(reminder.eventID)
-    const deleteButton = Markup.callbackButton(
-        buttons.delete,
-        `${cbQueryTypes['reminder-delete']}|${reminder.id}`
-    )
+    const event = await api.get(reminder.eventID).catch(err => console.error(err))
+    const deleteButton = Markup.callbackButton(buttons.delete, `${cbQueryTypes['reminder-delete']}|${reminder.id}`)
     const message = replies.getReminderInfo(reminder, event)
 
     ctx.replyWithHTML(message, Markup.inlineKeyboard([deleteButton]).extra())

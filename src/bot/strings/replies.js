@@ -89,9 +89,9 @@ ${hashtagArray(e.topics, ' ')}
 ${e.link}`
     },
 
-    getEventsList(events) {
-        const list = events.map(event => `(/e${event.id}) <b>${event.title}</b>\n`)
+    getEventsList(events, page) {
+        const list = events.map(event => `🏮 (/e${event.id}) <b>${event.title}</b> \n\n`).join('')
 
-        return list.join('')
+        return `Список ближайших событий - страница ${page}\n\n${list}`
     },
 }

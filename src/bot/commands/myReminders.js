@@ -11,9 +11,12 @@ export default async function(ctx) {
 
     for (let i = 0; i < reminders.length; i++) {
         const reminder = reminders[i]
-        const event = await api.get(reminder.eventID)
-
-        message += replies.singleLine(event.title, reminder.id, reminder.date)
+        await api
+            .get(reminder.eventID)
+            .then(event => {
+                message += replies.singleLine(event.title, reminder.id, reminder.date)
+            })
+            .catch(console.error)
     }
 
     if (!reminders.length) message = replies.remindersEmpty

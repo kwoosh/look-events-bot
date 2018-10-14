@@ -11,7 +11,7 @@ async function getEventsListExtra(page) {
     const totalPages = Math.ceil(eventsCount / EVENTS_LIMMIT)
 
     const markup = getPaginationKeyboard(page, totalPages, 'events-change-page')
-    const text = replies.getEventsList(events)
+    const text = replies.getEventsList(events, page)
 
     return { text, markup }
 }
