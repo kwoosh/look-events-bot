@@ -4,11 +4,12 @@
   "description": "Look Events Telegram bot powered by DOU.ua",
   "license": "MIT",
   "author": "Andrew Pashinnik <tobirawork@gmail.com>",
-  "repository": "https://github.com/kwoosh/look-events-bot",
+  "repository": "https://github.com/tobira-shoe/look-events-bot",
   "scripts": {
     "dev": "nodemon",
-    "start": "ts-node src/bot/main.ts",
-    "test": "jest"
+    "start": "node ./src/app.js",
+    "test": "eslint test && jest",
+    "lint": "eslint src"
   },
   "engines": {
     "node": "9.9.0"
@@ -16,16 +17,21 @@
   "dependencies": {
     "axios": "^0.18.0",
     "moment": "^2.22.2",
-    "mysql": "^2.15.0",
-    "telegraf": "^3.21.2"
+    "mysql": "^2.16.0",
+    "telegraf": "^3.24.1"
   },
   "devDependencies": {
     "@types/jest": "^23.1.0",
     "@types/mysql": "^2.15.5",
-    "jest": "^23.1.0",
-    "nodemon": "^1.17.5",
-    "ts-jest": "^22.4.6",
-    "ts-node": "^6.2.0",
-    "typescript": "^2.9.2"
+    "dotenv": "^6.1.0",
+    "eslint": "^5.7.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.4"
   }
 }
