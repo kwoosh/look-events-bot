@@ -9,6 +9,10 @@ moment.locale('ru')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
+bot.catch(err => {
+    console.log('Ooops', err)
+})
+
 export function startBot() {
     setupStaticCommands(bot)
     setupHearsCommands(bot)
