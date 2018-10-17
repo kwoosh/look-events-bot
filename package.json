@@ -7,7 +7,7 @@
   "repository": "https://github.com/tobira-shoe/look-events-bot",
   "scripts": {
     "dev": "nodemon",
-    "start": "node ./src/app.js",
+    "start": "babel-node ./src/app.js",
     "test": "eslint test && jest",
     "lint": "eslint src"
   },
@@ -17,12 +17,17 @@
   "dependencies": {
     "axios": "^0.18.0",
     "moment": "^2.22.2",
-    "mysql": "^2.16.0",
+    "mongoose": "^5.3.4",
     "telegraf": "^3.24.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.1.0",
     "@types/jest": "^23.1.0",
-    "@types/mysql": "^2.15.5",
+    "@types/mongoose": "^5.2.19",
     "dotenv": "^6.1.0",
     "eslint": "^5.7.0",
     "eslint-config-prettier": "^3.1.0",
