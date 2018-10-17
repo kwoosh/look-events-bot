@@ -1,10 +1,18 @@
 import Extra from 'telegraf/extra'
 import Markup from 'telegraf/markup'
-import { buttons, cbQueryTypes } from './strings'
+import { cbQueryTypes } from '../strings'
 
-export function makeCallbackButton(queryType) {
+const toPage = {
+    first: n => `« ${n}`,
+    last: n => `${n} »`,
+    current: n => `· ${n} ·`,
+    next: n => `${n} ›`,
+    prev: n => `‹ ${n}`,
+}
+
+function makeCallbackButton(queryType) {
     return (page, to) => {
-        const text = buttons.toPage[to](page)
+        const text = toPage[to](page)
         const data = `${cbQueryTypes[queryType]}|${page}`
 
         return Markup.callbackButton(text, data)

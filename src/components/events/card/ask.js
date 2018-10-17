@@ -1,9 +1,11 @@
 import moment from 'moment'
 import Markup from 'telegraf/markup'
-import api from '../../api'
-import { buttons, cbQueryTypes, replies } from '../strings'
+import api from '../../../common/api'
+import { cbQueryTypes, replies } from '../../../common/strings'
 
-export default async function(ctx, payload) {
+const remindDays = [{ days: 1, text: 'За день' }, { days: 3, text: 'За 3 дня' }, { days: 7, text: 'За неделю' }]
+
+export async function askForDay(ctx, payload) {
     if (!ctx.callbackQuery) return
 
     const [eventID] = payload
@@ -19,7 +21,7 @@ export default async function(ctx, payload) {
     } else {
         const buttonsRow = []
 
-        buttons.remindDays.forEach(({ days, text }) => {
+        remindDays.forEach(({ days, text }) => {
             if (diff >= days) {
                 const data = `${cbQueryTypes['reminder-new']}|${event.id}:${days}:${msgID}`
                 buttonsRow.push(Markup.callbackButton(text, data))

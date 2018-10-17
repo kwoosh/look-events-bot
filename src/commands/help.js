@@ -1,4 +1,4 @@
-import { commands } from '../strings'
+import { commands } from '../common/strings'
 
 export default function(ctx) {
     ctx.replyWithHTML(`

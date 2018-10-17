@@ -1,8 +1,8 @@
-import { editEventsList } from '../actions/eventsList'
-import { cbQueryTypes } from '../strings'
-import askForDay from './askForDay'
-import createReminder from './createReminder'
-import deleteReminder from './deleteReminder'
+import { editEventsList } from '../components/events/list/edit'
+import { cbQueryTypes } from '../common/strings'
+import { askForDay } from '../components/events/card/ask'
+import { createReminder } from '../components/reminders/create'
+import { deleteReminder } from '../components/reminders/delete'
 
 function parseCallbackQueryData(data) {
     if (!data) return { type: '', payload: [] }
@@ -12,7 +12,7 @@ function parseCallbackQueryData(data) {
     return { type, payload: payload.split(':') }
 }
 
-export function setupCallbacksAnswers(bot) {
+export function setupCallbackAnswers(bot) {
     bot.on('callback_query', async ctx => {
         if (!ctx.callbackQuery) return
 
@@ -42,6 +42,6 @@ export function setupCallbacksAnswers(bot) {
             }
         }
 
-        ctx.answerCallbackQuery()
+        ctx.answerCbQuery()
     })
 }

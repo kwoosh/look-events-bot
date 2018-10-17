@@ -9,3 +9,9 @@ export const commands = {
     r: 'r',
     e: 'e',
 }
+
+export const hearMessages = {
+    reminder: /\/r(\d+)/,
+    event: /\/e(\d+)/,
+    listByTags: /\/list_by_tags \(((([a-zA-Zа-яА-Я]),?)+)?\) \[((([a-zA-Zа-яА-Я]),?)+)?\]/,
+}

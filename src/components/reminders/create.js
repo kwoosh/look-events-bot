@@ -1,8 +1,8 @@
 import moment from 'moment'
-import api from '../../api'
-import db from '../../db'
-import { format, getRemindDate, isSameDate } from '../../utils/dates'
-import { replies } from '../strings'
+import api from '../../common/api'
+import db from '../../common/db'
+import { format, getRemindDate, isSameDate } from '../../common/utils/dates'
+import { replies } from '../../common/strings'
 
 export function isReminderExist(remindDate, reminders) {
     return reminders.reduce((prev, existed) => {
@@ -10,7 +10,7 @@ export function isReminderExist(remindDate, reminders) {
     }, false)
 }
 
-export default async function(ctx, payload) {
+export async function createReminder(ctx, payload) {
     if (!ctx.from) return
 
     const [eventID, daysBefore, messageID] = payload

@@ -1,7 +1,7 @@
-import db from '../../db'
-import { replies } from '../strings'
+import db from '../../common/db'
+import { replies } from '../../common/strings'
 
-export default async function(ctx, payload) {
+export async function deleteReminder(ctx, payload) {
     const [reminderID] = payload
 
     await db.reminders.delete(Number(reminderID))

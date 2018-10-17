@@ -1,7 +1,7 @@
 import moment from 'moment'
-import api from '../../api'
-import db from '../../db'
-import { replies } from '../strings'
+import api from '../../../common/api'
+import db from '../../../common/db'
+import { replies } from '../../../common/strings'
 
 export async function sendReminderCard(bot) {
     const allowedTime = [9, 12, 15, 18, 19, 21]

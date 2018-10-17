@@ -1,5 +1,5 @@
-import db from '../../db'
-import { commands } from '../strings'
+import db from '../common/db'
+import { commands } from '../common/strings'
 
 export default function(ctx) {
     if (!ctx.from) return
