@@ -1,20 +1,23 @@
-import * as mysql from 'mysql'
-import { RemindersDB } from './reminders'
-import { UsersDB } from './users'
-
-// todo: rewrite by using ORM
+import mongoose from 'mongoose'
+import { RemindersDB } from './reminders-db'
+import { UsersDB } from './users-db'
 
 class DB {
     constructor() {
-        const database = mysql.createConnection(process.env.DB_URI)
-
-        database.connect(err => {
-            if (err) throw err
-            console.log('Connected to db!')
+        const connection = mongoose.createConnection(process.env.DB_URI, {
+            useNewUrlParser: true,
         })
 
-        this.users = new UsersDB(database)
-        this.reminders = new RemindersDB(database)
+        connection.on('error', error => {
+            console.error('Databse connection error: ', error)
+        })
+
+        connection.once('open', () => {
+            console.log('Connected to database (^_^)')
+        })
+
+        this.users = new UsersDB(connection)
+        this.reminders = new RemindersDB(connection)
     }
 }
 
